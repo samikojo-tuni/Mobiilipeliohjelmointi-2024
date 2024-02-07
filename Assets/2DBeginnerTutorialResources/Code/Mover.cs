@@ -4,10 +4,12 @@ using UnityEngine;
 
 namespace Mobiiliesimerkki
 {
-	public class Mover : MonoBehaviour
+	public class Mover : MonoBehaviour, IMover
 	{
 		[SerializeField]
 		private float _speed = 1.0f;
+
+		public float Speed { get { return _speed; } }
 
 		public void Move(Vector2 direction)
 		{

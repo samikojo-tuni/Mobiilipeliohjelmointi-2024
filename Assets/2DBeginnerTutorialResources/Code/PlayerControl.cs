@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -18,9 +19,11 @@ namespace Mobiiliesimerkki
 		private InputReader _inputReader = null;
 		private IMover _mover = null;
 		private Animator _animator = null;
+		private Health _health = null;
 		// Piirtää hahmon näytölle.
 		private SpriteRenderer _spriteRenderer = null;
 
+		#region Unity Messages
 		private void Awake()
 		{
 			// Alustetaan InputReader ja Mover Awake-metodissa.
@@ -28,6 +31,7 @@ namespace Mobiiliesimerkki
 			_mover = GetComponent<IMover>();
 			_animator = GetComponent<Animator>();
 			_spriteRenderer = GetComponent<SpriteRenderer>();
+			_health = GetComponent<Health>();
 		}
 
 		private void Update()
@@ -36,6 +40,14 @@ namespace Mobiiliesimerkki
 			Vector2 movement = _inputReader.Movement;
 			_mover.Move(movement);
 			UpdateAnimator(movement);
+		}
+		#endregion Unity Messages
+
+		#region Private implementation
+
+		private void Die()
+		{
+			gameObject.SetActive(false);
 		}
 
 		private void UpdateAnimator(Vector2 movement)
@@ -50,5 +62,26 @@ namespace Mobiiliesimerkki
 			// hahmon spriten x-akselin suhteen.
 			_spriteRenderer.flipX = lookRight;
 		}
+		#endregion Private implementation
+
+		#region Public interface
+
+		public void Heal(int amount)
+		{
+			_health.IncreaseHealth(amount);
+		}
+
+		public bool TakeDamage(int amount)
+		{
+			if (!_health.DecreaseHealth(amount))
+			{
+				Die();
+				return false;
+			}
+
+			return true;
+		}
+
+		#endregion
 	}
 }

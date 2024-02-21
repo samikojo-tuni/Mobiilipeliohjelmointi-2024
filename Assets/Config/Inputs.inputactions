@@ -54,17 +54,6 @@
             ],
             "bindings": [
                 {
-                    "name": "",
-                    "id": "c836ee2b-a0b4-43ec-823c-f9e4abb162e5",
-                    "path": "<Gamepad>/leftStick",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "Move",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
                     "name": "Arrows",
                     "id": "ecac9229-2b80-4188-9f73-700da1576188",
                     "path": "2DVector",
@@ -176,6 +165,17 @@
                 },
                 {
                     "name": "",
+                    "id": "4cf8aad1-f3ec-4eef-8342-ee547ef54b5e",
+                    "path": "<Gamepad>/leftStick",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Move",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
                     "id": "9e747183-9c2c-45f6-a2da-4674512243c0",
                     "path": "<Gamepad>/buttonSouth",
                     "interactions": "",
@@ -193,6 +193,34 @@
                     "processors": "",
                     "groups": "",
                     "action": "Interact",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                }
+            ]
+        },
+        {
+            "name": "TapControl",
+            "id": "ebafb8e9-afd9-4631-ba03-9e621c992b0d",
+            "actions": [
+                {
+                    "name": "Move",
+                    "type": "Value",
+                    "id": "66779406-75be-41db-9fe8-b22e607cd7ad",
+                    "expectedControlType": "Vector2",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": true
+                }
+            ],
+            "bindings": [
+                {
+                    "name": "",
+                    "id": "22276273-18b4-4348-908e-044d0586a1b3",
+                    "path": "<Touchscreen>/position",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Move",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

@@ -78,17 +78,6 @@ namespace Mobiiliesimerkki
             ],
             ""bindings"": [
                 {
-                    ""name"": """",
-                    ""id"": ""c836ee2b-a0b4-43ec-823c-f9e4abb162e5"",
-                    ""path"": ""<Gamepad>/leftStick"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": """",
-                    ""action"": ""Move"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": false
-                },
-                {
                     ""name"": ""Arrows"",
                     ""id"": ""ecac9229-2b80-4188-9f73-700da1576188"",
                     ""path"": ""2DVector"",
@@ -200,6 +189,17 @@ namespace Mobiiliesimerkki
                 },
                 {
                     ""name"": """",
+                    ""id"": ""4cf8aad1-f3ec-4eef-8342-ee547ef54b5e"",
+                    ""path"": ""<Gamepad>/leftStick"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Move"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
                     ""id"": ""9e747183-9c2c-45f6-a2da-4674512243c0"",
                     ""path"": ""<Gamepad>/buttonSouth"",
                     ""interactions"": """",
@@ -221,6 +221,34 @@ namespace Mobiiliesimerkki
                     ""isPartOfComposite"": false
                 }
             ]
+        },
+        {
+            ""name"": ""TapControl"",
+            ""id"": ""ebafb8e9-afd9-4631-ba03-9e621c992b0d"",
+            ""actions"": [
+                {
+                    ""name"": ""Move"",
+                    ""type"": ""Value"",
+                    ""id"": ""66779406-75be-41db-9fe8-b22e607cd7ad"",
+                    ""expectedControlType"": ""Vector2"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": true
+                }
+            ],
+            ""bindings"": [
+                {
+                    ""name"": """",
+                    ""id"": ""22276273-18b4-4348-908e-044d0586a1b3"",
+                    ""path"": ""<Touchscreen>/position"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Move"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                }
+            ]
         }
     ],
     ""controlSchemes"": []
@@ -232,6 +260,9 @@ namespace Mobiiliesimerkki
             m_Game = asset.FindActionMap("Game", throwIfNotFound: true);
             m_Game_Move = m_Game.FindAction("Move", throwIfNotFound: true);
             m_Game_Interact = m_Game.FindAction("Interact", throwIfNotFound: true);
+            // TapControl
+            m_TapControl = asset.FindActionMap("TapControl", throwIfNotFound: true);
+            m_TapControl_Move = m_TapControl.FindAction("Move", throwIfNotFound: true);
         }
 
         public void Dispose()
@@ -389,6 +420,52 @@ namespace Mobiiliesimerkki
             }
         }
         public GameActions @Game => new GameActions(this);
+
+        // TapControl
+        private readonly InputActionMap m_TapControl;
+        private List<ITapControlActions> m_TapControlActionsCallbackInterfaces = new List<ITapControlActions>();
+        private readonly InputAction m_TapControl_Move;
+        public struct TapControlActions
+        {
+            private @Inputs m_Wrapper;
+            public TapControlActions(@Inputs wrapper) { m_Wrapper = wrapper; }
+            public InputAction @Move => m_Wrapper.m_TapControl_Move;
+            public InputActionMap Get() { return m_Wrapper.m_TapControl; }
+            public void Enable() { Get().Enable(); }
+            public void Disable() { Get().Disable(); }
+            public bool enabled => Get().enabled;
+            public static implicit operator InputActionMap(TapControlActions set) { return set.Get(); }
+            public void AddCallbacks(ITapControlActions instance)
+            {
+                if (instance == null || m_Wrapper.m_TapControlActionsCallbackInterfaces.Contains(instance)) return;
+                m_Wrapper.m_TapControlActionsCallbackInterfaces.Add(instance);
+                @Move.started += instance.OnMove;
+                @Move.performed += instance.OnMove;
+                @Move.canceled += instance.OnMove;
+            }
+
+            private void UnregisterCallbacks(ITapControlActions instance)
+            {
+                @Move.started -= instance.OnMove;
+                @Move.performed -= instance.OnMove;
+                @Move.canceled -= instance.OnMove;
+            }
+
+            public void RemoveCallbacks(ITapControlActions instance)
+            {
+                if (m_Wrapper.m_TapControlActionsCallbackInterfaces.Remove(instance))
+                    UnregisterCallbacks(instance);
+            }
+
+            public void SetCallbacks(ITapControlActions instance)
+            {
+                foreach (var item in m_Wrapper.m_TapControlActionsCallbackInterfaces)
+                    UnregisterCallbacks(item);
+                m_Wrapper.m_TapControlActionsCallbackInterfaces.Clear();
+                AddCallbacks(instance);
+            }
+        }
+        public TapControlActions @TapControl => new TapControlActions(this);
         public interface IMenuActions
         {
             void OnNewaction(InputAction.CallbackContext context);
@@ -397,6 +474,10 @@ namespace Mobiiliesimerkki
         {
             void OnMove(InputAction.CallbackContext context);
             void OnInteract(InputAction.CallbackContext context);
+        }
+        public interface ITapControlActions
+        {
+            void OnMove(InputAction.CallbackContext context);
         }
     }
 }

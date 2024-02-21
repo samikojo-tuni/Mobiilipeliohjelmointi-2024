@@ -41,6 +41,17 @@ namespace Mobiiliesimerkki
 			_mover.Move(movement);
 			UpdateAnimator(movement);
 		}
+
+		private void OnTriggerEnter2D(Collider2D other)
+		{
+			ItemVisual itemVisual = other.GetComponent<ItemVisual>();
+			if (itemVisual != null)
+			{
+				// Kerää esine! TODO: Lisää esine inventorioon, kun se on toteutettu.
+				Debug.Log($"Kerättiin esine: {itemVisual.Item.Name}");
+				Destroy(other.gameObject);
+			}
+		}
 		#endregion Unity Messages
 
 		#region Private implementation

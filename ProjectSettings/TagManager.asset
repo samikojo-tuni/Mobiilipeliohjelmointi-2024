@@ -53,3 +53,6 @@ TagManager:
   - name: Characters
     uniqueID: 493950681
     locked: 0
+  - name: Collectable
+    uniqueID: 3522999673
+    locked: 0

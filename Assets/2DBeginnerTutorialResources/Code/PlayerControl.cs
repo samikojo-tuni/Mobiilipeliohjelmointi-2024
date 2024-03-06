@@ -16,12 +16,15 @@ namespace Mobiiliesimerkki
 		private const string DirectionXAnimationParameter = "DirectionX";
 		private const string DirectionYAnimationParameter = "DirectionY";
 
+		[SerializeField] private float _inventoryMaxWeight = 20;
+
 		private InputReader _inputReader = null;
 		private IMover _mover = null;
 		private Animator _animator = null;
 		private Health _health = null;
 		// Piirtää hahmon näytölle.
 		private SpriteRenderer _spriteRenderer = null;
+		private Inventory _inventory = null;
 
 		#region Unity Messages
 		private void Awake()
@@ -32,6 +35,8 @@ namespace Mobiiliesimerkki
 			_animator = GetComponent<Animator>();
 			_spriteRenderer = GetComponent<SpriteRenderer>();
 			_health = GetComponent<Health>();
+
+			_inventory = new Inventory(_inventoryMaxWeight);
 		}
 
 		private void Update()
@@ -47,14 +52,22 @@ namespace Mobiiliesimerkki
 			ItemVisual itemVisual = other.GetComponent<ItemVisual>();
 			if (itemVisual != null)
 			{
-				// Kerää esine! TODO: Lisää esine inventorioon, kun se on toteutettu.
-				Debug.Log($"Kerättiin esine: {itemVisual.Item.Name}");
-				Destroy(other.gameObject);
+				Collect(itemVisual);
 			}
 		}
+
 		#endregion Unity Messages
 
 		#region Private implementation
+
+		private void Collect(ItemVisual itemVisual)
+		{
+			// Kerää esine! TODO: Lisää esine inventorioon, kun se on toteutettu.
+			if (_inventory.Add(itemVisual.Item, 1)) // TODO: Entä jos kerätään esim. kasa kolikoita?
+			{
+				Destroy(itemVisual.gameObject);
+			}
+		}
 
 		private void Die()
 		{

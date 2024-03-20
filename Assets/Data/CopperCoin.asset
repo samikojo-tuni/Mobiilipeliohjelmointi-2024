@@ -17,4 +17,4 @@ MonoBehaviour:
   _name: Copper coin
   _weight: 1
   _isKeyItem: 0
-  _sprite: {fileID: 0}
+  _sprite: {fileID: 21300000, guid: 075f64e5f974a4505867fa9bbc8c9e17, type: 3}

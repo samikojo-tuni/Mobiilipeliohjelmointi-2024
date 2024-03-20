@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using Mobiiliesimerkki.UI;
 using UnityEngine;
 
 namespace Mobiiliesimerkki
@@ -25,6 +26,7 @@ namespace Mobiiliesimerkki
 		// Piirtää hahmon näytölle.
 		private SpriteRenderer _spriteRenderer = null;
 		private Inventory _inventory = null;
+		private InventoryUI _inventoryUI = null;
 
 		#region Unity Messages
 		private void Awake()
@@ -37,6 +39,12 @@ namespace Mobiiliesimerkki
 			_health = GetComponent<Health>();
 
 			_inventory = new Inventory(_inventoryMaxWeight);
+
+			_inventoryUI = FindObjectOfType<InventoryUI>();
+			if (_inventoryUI != null)
+			{
+				_inventoryUI.SetInventory(_inventory);
+			}
 		}
 
 		private void Update()
@@ -65,6 +73,11 @@ namespace Mobiiliesimerkki
 			// Kerää esine! TODO: Lisää esine inventorioon, kun se on toteutettu.
 			if (_inventory.Add(itemVisual.Item, 1)) // TODO: Entä jos kerätään esim. kasa kolikoita?
 			{
+				if (_inventoryUI != null)
+				{
+					_inventoryUI.UpdateUI();
+				}
+
 				Destroy(itemVisual.gameObject);
 			}
 		}

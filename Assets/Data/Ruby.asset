@@ -17,4 +17,4 @@ MonoBehaviour:
   _name: Ruby
   _weight: 10
   _isKeyItem: 0
-  _sprite: {fileID: 0}
+  _sprite: {fileID: 21300000, guid: 3ab94205c515147c28a013d4c5d26132, type: 3}

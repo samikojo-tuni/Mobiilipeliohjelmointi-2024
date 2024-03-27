@@ -8,6 +8,7 @@ namespace Mobiiliesimerkki
 	{
 		// Viittaus Item-ScriptableObjectiin projektissa.
 		[SerializeField] private Item _item = null;
+		[SerializeField] private ParticleSystem _collectEffectPrefab = null;
 
 		private AudioSource _collectSFX = null;
 		private Renderer _renderer = null;
@@ -32,6 +33,14 @@ namespace Mobiiliesimerkki
 			{
 				_collectSFX.Play();
 				delay = _collectSFX.clip.length;
+			}
+
+			if (_collectEffectPrefab != null)
+			{
+				ParticleSystem effect = Instantiate(_collectEffectPrefab, transform.position, Quaternion.identity);
+				delay = Mathf.Max(delay, effect.main.duration);
+				effect.Play(withChildren: true);
+				Destroy(effect.gameObject, delay); // Muista tuhota myös efekti.
 			}
 
 			// Tuhotaan kerättävä esine.

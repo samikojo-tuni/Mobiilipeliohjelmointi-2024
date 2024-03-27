@@ -122,6 +122,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _item: {fileID: 11400000, guid: 4c7e9371e5d2c48e4b029e049fa8819d, type: 2}
+  _collectEffectPrefab: {fileID: 2538577550778343488, guid: 150e98e622d394cde83d97a5c7dcf641, type: 3}
 --- !u!58 &6578405915324977423
 CircleCollider2D:
   m_ObjectHideFlags: 0

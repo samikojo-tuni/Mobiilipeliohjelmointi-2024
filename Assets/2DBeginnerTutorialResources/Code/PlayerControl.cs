@@ -78,7 +78,7 @@ namespace Mobiiliesimerkki
 					_inventoryUI.UpdateUI();
 				}
 
-				Destroy(itemVisual.gameObject);
+				itemVisual.Collect();
 			}
 		}
 

@@ -425,6 +425,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _musicSource: {fileID: 119836231}
+  _mixer: {fileID: 24100000, guid: 84eaa5a19ba434921b7f4e7b140e36cf, type: 2}
+  _musicVolumeName: MusicVolume
+  _sfxVolumeName: SFXVolume
+  _masterVolumeName: MasterVolume
 --- !u!4 &119836233
 Transform:
   m_ObjectHideFlags: 0

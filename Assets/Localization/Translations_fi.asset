@@ -28,6 +28,30 @@ MonoBehaviour:
     m_Metadata:
       m_Items:
       - rid: 2581593293394542619
+  - m_Id: 2032097288192
+    m_Localized: Asetukset
+    m_Metadata:
+      m_Items: []
+  - m_Id: 5719805427441664
+    m_Localized: Master
+    m_Metadata:
+      m_Items: []
+  - m_Id: 5719835785814016
+    m_Localized: Musiikki
+    m_Metadata:
+      m_Items: []
+  - m_Id: 5719860997775360
+    m_Localized: Tehosteet
+    m_Metadata:
+      m_Items: []
+  - m_Id: 5738307479658496
+    m_Localized: OK
+    m_Metadata:
+      m_Items: []
+  - m_Id: 5738348202156032
+    m_Localized: Peruuta
+    m_Metadata:
+      m_Items: []
   references:
     version: 2
     RefIds:

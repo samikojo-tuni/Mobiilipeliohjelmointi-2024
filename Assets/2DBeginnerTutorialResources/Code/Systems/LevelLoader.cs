@@ -14,12 +14,16 @@ namespace Mobiiliesimerkki
 			UnloadingPrevious,
 			LoadingNext,
 			FadeToClear,
-			Finish
+			Finish,
+			Options
 		}
 
 		private const string LoadingSceneName = "Loader";
+		private const string OptionsSceneName = "Options";
 		private static string s_nextSceneName;
 		private static Scene s_originalScene;
+		// Viittaus options-sceneen (jotta se voidaan sulkea)
+		private static Scene s_optionsScene;
 		private static LoadingState s_loadingState;
 		private static Fader s_fader;
 
@@ -60,6 +64,21 @@ namespace Mobiiliesimerkki
 			return true;
 		}
 
+		public static void OpenOptions()
+		{
+			Time.timeScale = 0f;
+			s_loadingState = LoadingState.Options;
+			SceneManager.LoadSceneAsync(OptionsSceneName, LoadSceneMode.Additive);
+			SceneManager.sceneLoaded += OnSceneLoaded;
+		}
+
+		public static void CloseOptions()
+		{
+			Time.timeScale = 1f;
+			SceneManager.UnloadSceneAsync(s_optionsScene);
+			s_loadingState = LoadingState.None;
+		}
+
 		private static void OnSceneLoaded(Scene loadedScene, LoadSceneMode loadMode)
 		{
 			// Lopetetaan sceneLoaded-eventin kuuntelu
@@ -87,6 +106,10 @@ namespace Mobiiliesimerkki
 					Fader.FadeComplete += OnFadeComplete;
 					s_fader.StartFade(Fader.State.FadingOut);
 					s_loadingState = LoadingState.FadeToClear;
+					break;
+
+				case LoadingState.Options:
+					s_optionsScene = loadedScene;
 					break;
 			}
 		}

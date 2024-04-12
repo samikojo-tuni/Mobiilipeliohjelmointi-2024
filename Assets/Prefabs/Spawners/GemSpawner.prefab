@@ -49,3 +49,5 @@ MonoBehaviour:
   _maxItems: 3
   _spawnRadius: 1.39
   _itemPrefab: {fileID: 2588514921482390950, guid: f7fbb6db42675432ba3bf4ee6dea808d, type: 3}
+  _debugColor: {r: 1, g: 0.92156863, b: 0.015686275, a: 1}
+  _id: 

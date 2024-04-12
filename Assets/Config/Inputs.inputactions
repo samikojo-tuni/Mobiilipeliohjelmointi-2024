@@ -225,6 +225,54 @@
                     "isPartOfComposite": false
                 }
             ]
+        },
+        {
+            "name": "Save",
+            "id": "630f9c38-11fc-41f0-8fbe-25b823f6e6f6",
+            "actions": [
+                {
+                    "name": "QuickSave",
+                    "type": "Button",
+                    "id": "9549e85a-7088-4d46-afc0-f92a10b58ed9",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "QuickLoad",
+                    "type": "Button",
+                    "id": "d22391c3-5755-4390-a299-b1d93b900929",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                }
+            ],
+            "bindings": [
+                {
+                    "name": "",
+                    "id": "6c84e38a-10ea-4939-9068-ae83edb9e339",
+                    "path": "<Keyboard>/f5",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "QuickSave",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "95e08ba9-cff2-442f-91b9-f526900cfc2f",
+                    "path": "<Keyboard>/f6",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "QuickLoad",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                }
+            ]
         }
     ],
     "controlSchemes": []

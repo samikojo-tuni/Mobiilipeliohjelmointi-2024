@@ -5,6 +5,7 @@ namespace Mobiiliesimerkki
 	[CreateAssetMenu(fileName = "NewItem", menuName = "Inventory/Item")]
 	public class Item : ScriptableObject
 	{
+		// TODO: Määritä ID tai käytä ItemTypea
 		[SerializeField] private ItemType _type = ItemType.None;
 		[SerializeField] private int _value = 0;
 		[SerializeField] private string _name = "";

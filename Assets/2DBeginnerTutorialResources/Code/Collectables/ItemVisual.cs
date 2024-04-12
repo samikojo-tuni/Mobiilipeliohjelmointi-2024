@@ -13,6 +13,8 @@ namespace Mobiiliesimerkki
 		private AudioSource _collectSFX = null;
 		private Renderer _renderer = null;
 		private Collider2D _collider = null;
+		// Viittaus siihen spawneriin, joka loi tämän esineen.
+		private ItemSpawner _spawner = null;
 
 		public Item Item => _item;
 
@@ -21,6 +23,11 @@ namespace Mobiiliesimerkki
 			_collectSFX = GetComponent<AudioSource>();
 			_renderer = GetComponent<Renderer>();
 			_collider = GetComponent<Collider2D>();
+		}
+
+		public void SetSpawner(ItemSpawner spawner)
+		{
+			_spawner = spawner;
 		}
 
 		public void Collect()
@@ -41,6 +48,11 @@ namespace Mobiiliesimerkki
 				delay = Mathf.Max(delay, effect.main.duration);
 				effect.Play(withChildren: true);
 				Destroy(effect.gameObject, delay); // Muista tuhota myös efekti.
+			}
+
+			if (_spawner != null)
+			{
+				_spawner.ItemCollected(this);
 			}
 
 			// Tuhotaan kerättävä esine.

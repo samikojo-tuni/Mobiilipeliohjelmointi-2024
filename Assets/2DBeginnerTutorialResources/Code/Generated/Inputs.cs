@@ -249,6 +249,54 @@ namespace Mobiiliesimerkki
                     ""isPartOfComposite"": false
                 }
             ]
+        },
+        {
+            ""name"": ""Save"",
+            ""id"": ""630f9c38-11fc-41f0-8fbe-25b823f6e6f6"",
+            ""actions"": [
+                {
+                    ""name"": ""QuickSave"",
+                    ""type"": ""Button"",
+                    ""id"": ""9549e85a-7088-4d46-afc0-f92a10b58ed9"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""QuickLoad"",
+                    ""type"": ""Button"",
+                    ""id"": ""d22391c3-5755-4390-a299-b1d93b900929"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                }
+            ],
+            ""bindings"": [
+                {
+                    ""name"": """",
+                    ""id"": ""6c84e38a-10ea-4939-9068-ae83edb9e339"",
+                    ""path"": ""<Keyboard>/f5"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""QuickSave"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""95e08ba9-cff2-442f-91b9-f526900cfc2f"",
+                    ""path"": ""<Keyboard>/f6"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""QuickLoad"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                }
+            ]
         }
     ],
     ""controlSchemes"": []
@@ -263,6 +311,10 @@ namespace Mobiiliesimerkki
             // TapControl
             m_TapControl = asset.FindActionMap("TapControl", throwIfNotFound: true);
             m_TapControl_Move = m_TapControl.FindAction("Move", throwIfNotFound: true);
+            // Save
+            m_Save = asset.FindActionMap("Save", throwIfNotFound: true);
+            m_Save_QuickSave = m_Save.FindAction("QuickSave", throwIfNotFound: true);
+            m_Save_QuickLoad = m_Save.FindAction("QuickLoad", throwIfNotFound: true);
         }
 
         public void Dispose()
@@ -466,6 +518,60 @@ namespace Mobiiliesimerkki
             }
         }
         public TapControlActions @TapControl => new TapControlActions(this);
+
+        // Save
+        private readonly InputActionMap m_Save;
+        private List<ISaveActions> m_SaveActionsCallbackInterfaces = new List<ISaveActions>();
+        private readonly InputAction m_Save_QuickSave;
+        private readonly InputAction m_Save_QuickLoad;
+        public struct SaveActions
+        {
+            private @Inputs m_Wrapper;
+            public SaveActions(@Inputs wrapper) { m_Wrapper = wrapper; }
+            public InputAction @QuickSave => m_Wrapper.m_Save_QuickSave;
+            public InputAction @QuickLoad => m_Wrapper.m_Save_QuickLoad;
+            public InputActionMap Get() { return m_Wrapper.m_Save; }
+            public void Enable() { Get().Enable(); }
+            public void Disable() { Get().Disable(); }
+            public bool enabled => Get().enabled;
+            public static implicit operator InputActionMap(SaveActions set) { return set.Get(); }
+            public void AddCallbacks(ISaveActions instance)
+            {
+                if (instance == null || m_Wrapper.m_SaveActionsCallbackInterfaces.Contains(instance)) return;
+                m_Wrapper.m_SaveActionsCallbackInterfaces.Add(instance);
+                @QuickSave.started += instance.OnQuickSave;
+                @QuickSave.performed += instance.OnQuickSave;
+                @QuickSave.canceled += instance.OnQuickSave;
+                @QuickLoad.started += instance.OnQuickLoad;
+                @QuickLoad.performed += instance.OnQuickLoad;
+                @QuickLoad.canceled += instance.OnQuickLoad;
+            }
+
+            private void UnregisterCallbacks(ISaveActions instance)
+            {
+                @QuickSave.started -= instance.OnQuickSave;
+                @QuickSave.performed -= instance.OnQuickSave;
+                @QuickSave.canceled -= instance.OnQuickSave;
+                @QuickLoad.started -= instance.OnQuickLoad;
+                @QuickLoad.performed -= instance.OnQuickLoad;
+                @QuickLoad.canceled -= instance.OnQuickLoad;
+            }
+
+            public void RemoveCallbacks(ISaveActions instance)
+            {
+                if (m_Wrapper.m_SaveActionsCallbackInterfaces.Remove(instance))
+                    UnregisterCallbacks(instance);
+            }
+
+            public void SetCallbacks(ISaveActions instance)
+            {
+                foreach (var item in m_Wrapper.m_SaveActionsCallbackInterfaces)
+                    UnregisterCallbacks(item);
+                m_Wrapper.m_SaveActionsCallbackInterfaces.Clear();
+                AddCallbacks(instance);
+            }
+        }
+        public SaveActions @Save => new SaveActions(this);
         public interface IMenuActions
         {
             void OnNewaction(InputAction.CallbackContext context);
@@ -478,6 +584,11 @@ namespace Mobiiliesimerkki
         public interface ITapControlActions
         {
             void OnMove(InputAction.CallbackContext context);
+        }
+        public interface ISaveActions
+        {
+            void OnQuickSave(InputAction.CallbackContext context);
+            void OnQuickLoad(InputAction.CallbackContext context);
         }
     }
 }

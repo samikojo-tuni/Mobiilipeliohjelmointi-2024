@@ -309,6 +309,7 @@ GameObject:
   - component: {fileID: 119836233}
   - component: {fileID: 119836232}
   - component: {fileID: 119836231}
+  - component: {fileID: 119836234}
   m_Layer: 0
   m_Name: LevelManager
   m_TagString: Untagged
@@ -444,6 +445,19 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &119836234
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 119836230}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a52975fe8fc6c4547960a4de01bf7917, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _itemDatabase: {fileID: 11400000, guid: f1a5f13f7e3b5497b9bf041d319261c1, type: 2}
 --- !u!1 &203844586
 GameObject:
   m_ObjectHideFlags: 0
@@ -756,6 +770,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 7244653405667886684, guid: 1a8763a1c7f854791a04a83dde75edeb, type: 3}
+      propertyPath: _id
+      value: 50dcdc7b-1369-4c7d-b213-68b46925461f
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -798,6 +816,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _inventoryMaxWeight: 20
+  _id: 13673f87-ae0a-4f65-8745-951df81eac09
 --- !u!114 &629079076
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4481,6 +4500,14 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 7244653405667886684, guid: 1a8763a1c7f854791a04a83dde75edeb, type: 3}
+      propertyPath: _id
+      value: 157829a5-ee6e-4bd2-b3b0-a8fd88dbaa22
+      objectReference: {fileID: 0}
+    - target: {fileID: 7244653405667886684, guid: 1a8763a1c7f854791a04a83dde75edeb, type: 3}
+      propertyPath: _spawnInterval
+      value: 4
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -4494,6 +4521,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 789694080693871470, guid: 6415ced88e24046e48162dfac6864369, type: 3}
+      propertyPath: _id
+      value: 7a4eee1b-b76c-4933-bb74-ea9f854ae6b4
+      objectReference: {fileID: 0}
     - target: {fileID: 789694080693871470, guid: 6415ced88e24046e48162dfac6864369, type: 3}
       propertyPath: _debugColor.b
       value: 0.39289618

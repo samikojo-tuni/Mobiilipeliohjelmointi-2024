@@ -10,7 +10,7 @@ namespace Mobiiliesimerkki
 	/// Hallinnoi pelihahmoa. Riippuvuudet: InputReader ja Mover.
 	/// </summary>
 	[RequireComponent(typeof(InputReader))]
-	public class PlayerControl : MonoBehaviour
+	public class PlayerControl : MonoBehaviour, ISaveable
 	{
 		// Vakiot, näiden arvoa ei voi muuttaa ajon aikana.
 		private const string SpeedAnimationParameter = "Speed";
@@ -27,6 +27,14 @@ namespace Mobiiliesimerkki
 		private SpriteRenderer _spriteRenderer = null;
 		private Inventory _inventory = null;
 		private InventoryUI _inventoryUI = null;
+
+		// Tämän pitää olla SerializeField, jotta Unity voi tallentaa sen.
+		// Muuten data ei tallennu Sceneen tai Prefabiin, ja ID muuttuu
+		// jokaisella pelikerralla!
+		[SerializeField, HideInInspector]
+		private string _id = null;
+
+		public string ID => _id;
 
 		#region Unity Messages
 		private void Awake()
@@ -64,9 +72,23 @@ namespace Mobiiliesimerkki
 			}
 		}
 
+		private void OnValidate()
+		{
+			GenerateID();
+		}
+
 		#endregion Unity Messages
 
 		#region Private implementation
+
+		[ContextMenu("Generate ID")]
+		private void GenerateID()
+		{
+			if (String.IsNullOrEmpty(_id))
+			{
+				_id = Guid.NewGuid().ToString();
+			}
+		}
 
 		private void Collect(ItemVisual itemVisual)
 		{
@@ -115,6 +137,37 @@ namespace Mobiiliesimerkki
 				Die();
 				return false;
 			}
+
+			return true;
+		}
+
+		public void Save(GameData data)
+		{
+			// C# mahdollistaa olioiden alustamisen alustuslistan avulla
+			// alla kuvatulla tavalla.
+			PlayerData playerData = new PlayerData()
+			{
+				ID = ID,
+				Position = transform.position,
+				InventoryData = _inventory.GetSaveData()
+			};
+
+			data.PlayerData = playerData;
+		}
+
+		public bool Load(GameData data)
+		{
+			if (data == null
+				|| data.PlayerData == null
+				|| data.PlayerData.ID != ID)
+			{
+				return false;
+			}
+
+			transform.position = data.PlayerData.Position;
+
+			_inventory.Load(data.PlayerData.InventoryData);
+			_inventoryUI.UpdateUI();
 
 			return true;
 		}

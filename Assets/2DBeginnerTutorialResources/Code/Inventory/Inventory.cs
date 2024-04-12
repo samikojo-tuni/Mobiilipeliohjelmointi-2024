@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -118,6 +119,40 @@ namespace Mobiiliesimerkki
 			}
 
 			return items;
+		}
+
+		public InventoryData GetSaveData()
+		{
+			InventoryData data = new InventoryData();
+			foreach (KeyValuePair<Item, uint> item in _items)
+			{
+				data.ItemTypes.Add(item.Key.Type);
+				data.ItemCounts.Add(item.Value);
+			}
+
+			return data;
+		}
+
+		public bool Load(InventoryData data)
+		{
+			bool result = true;
+			Clear();
+
+			for (int i = 0; i < data.ItemTypes.Count; i++)
+			{
+				Item item = SaveSystem.Current.ItemDatabase.GetItem(data.ItemTypes[i]);
+				if (item != null)
+				{
+					_items.Add(item, data.ItemCounts[i]);
+				}
+				else
+				{
+					// Esinettä ei löytynyt tietokannasta.
+					result = false;
+				}
+			}
+
+			return result;
 		}
 
 		// Toiminnallisuus:
